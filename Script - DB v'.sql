@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS usuario(
 
 CREATE TABLE IF NOT EXISTS filme (
   `idFilme` INT NOT NULL PRIMARY KEY,
-  `dt_lancamento` DATE NULL
+  `dt_lancamento` DATE NULL,
+  popularidade DECIMAL(10,4)
 );
 
 CREATE TABLE IF NOT EXISTS regiao(
@@ -96,5 +97,3 @@ CREATE TABLE IF NOT EXISTS `filme_genero` (
     FOREIGN KEY (`fk_filme`) REFERENCES `Filme` (`idFilme`),
     FOREIGN KEY (`fk_genero`) REFERENCES `Genero` (`idGenero`)
 );
-
-SELECT * FROM genero;

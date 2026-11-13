@@ -3,16 +3,15 @@ CREATE DATABASE IF NOT EXISTS collect_physical;
 USE collect_physical;
 
 CREATE TABLE IF NOT EXISTS colecao (
-  idColecao  INT NOT NULL PRIMARY KEY
+  idColecao  INT NOT NULL PRIMARY KEY,
+  descricao VARCHAR(100)
 );
-
 
 CREATE TABLE IF NOT EXISTS usuario(
 	idUsuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(45),
     email VARCHAR(45) NOT NULL UNIQUE,
     senha VARCHAR(45) NOT NULL,
-    dt_nasc DATE,
     dt_criacao DATETIME DEFAULT CURRENT_TIMESTAMP(),
     fk_colecao INT,
     FOREIGN KEY (fk_colecao) REFERENCES colecao(idColecao)
@@ -42,10 +41,12 @@ FOREIGN KEY (fk_regiao) REFERENCES regiao(idRegiao)
 
 
 CREATE TABLE IF NOT EXISTS poster (
-  idPoster INT NOT NULL PRIMARY KEY,
+  idPoster INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   path VARCHAR(300) NULL,
-  fk_filmes INT,
-  FOREIGN KEY (fk_filmes) REFERENCES filme(idFilme)
+  fk_filme INT,
+  fk_regiao INT,
+  FOREIGN KEY (fk_filme) REFERENCES filme(idFilme),
+  FOREIGN KEY (fk_regiao) REFERENCES regiao(idRegiao)
 );
 
 CREATE TABLE IF NOT EXISTS locais_compra (

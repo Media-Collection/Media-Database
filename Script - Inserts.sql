@@ -10,11 +10,19 @@ INSERT INTO regiao(regiao) VALUES
 ('EN-US'),
 ('PT-BR');
 
+INSERT INTO local_compra(local) VALUES
+('Sebo'),
+('Bazar'),
+('Outros');
+
+DESC local_compra;
+
 SELECT * FROM regiao;
 SELECT * FROM midia;
 SELECT * FROM genero;
 SELECT * FROM filme;
 SELECT * FROM filme_genero;
+select * from usuario;
 
 INSERT INTO filmes VALUES(23, 'Whatever', '1992-10-29');
 INSERT INTO filme_genero VALUES(23, 12);
@@ -41,6 +49,8 @@ ORDER BY titulo;
 SELECT COUNT(titulo) FROM titulo;
 
 SELECT * FROM titulo;
+SELECT MAX(dt_lancamento) FROM filme;
+SELECT MAX(idFilme) FROM filme;
 
 DROP DATABASE collect_physical;
 SELECT * FROM filmes WHERE titulo LIKE '%the%';
@@ -68,14 +78,35 @@ INSERT INTO colecao(descricao) VALUES
 SELECT idUsuario FROM usuario WHERE email = 'lucas@gmail';
 SELECT * FROM usuario;
 
+-- Selecionar todos os filmes baseado em uma pesquisa e limite
 SELECT DISTINCT idFilme, path, titulo, dt_lancamento, popularidade, regiao.regiao FROM filme
 JOIN poster ON filme.idFilme = poster.fk_filme
 JOIN titulo ON filme.idFilme = titulo.fk_filme
 JOIN regiao ON idRegiao = titulo.fk_regiao AND idRegiao = poster.fk_regiao
-WHERE (titulo.fk_regiao = 2)
+WHERE (titulo.fk_regiao = 1) AND titulo LIKE '%glo%'
 ORDER BY popularidade DESC
-LIMIT 12;
+LIMIT 12, 20;
 
+-- Selecionar todos os filmes de uma coleção
+SELECT DISTINCT idFilme, path, titulo, filme.dt_lancamento, popularidade, regiao.regiao FROM filme
+JOIN poster ON filme.idFilme = poster.fk_filme
+JOIN titulo ON filme.idFilme = titulo.fk_filme
+JOIN regiao ON idRegiao = titulo.fk_regiao AND idRegiao = poster.fk_regiao
+JOIN lancamento ON lancamento.fk_filme = idFilme
+JOIN compra ON fk_lancamento = lancamento.idLancamento
+JOIN colecao ON fk_colecao = colecao.idColecao
+WHERE idColecao = 1 AND titulo.fk_regiao = 1 AND titulo LIKE '%saw%'
+ORDER BY popularidade DESC
+LIMIT 14;
+
+-- Inserts das compras na coleção
+INSERT INTO lancamento(fk_filme, fk_midia) VALUES
+('180', 1);
+
+INSERT INTO compra VALUES (1, '2026-11-13', 25.99, 1, 8);
+DESC compra;
+        
+SELECT * FROM colecao;
 SELECT * FROM regiao;
         
 

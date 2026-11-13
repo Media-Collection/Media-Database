@@ -1,4 +1,3 @@
-
 CREATE DATABASE IF NOT EXISTS collect_physical;
 USE collect_physical;
 
@@ -49,11 +48,10 @@ CREATE TABLE IF NOT EXISTS poster (
   FOREIGN KEY (fk_regiao) REFERENCES regiao(idRegiao)
 );
 
-CREATE TABLE IF NOT EXISTS locais_compra (
+CREATE TABLE IF NOT EXISTS local_compra (
   `local` VARCHAR(45) NOT NULL,
   `id_local_compra` INT NOT NULL PRIMARY KEY AUTO_INCREMENT
   );
-
 
 CREATE TABLE IF NOT EXISTS midia (
   `idMidia` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -62,7 +60,7 @@ CREATE TABLE IF NOT EXISTS midia (
 
 
 
-CREATE TABLE IF NOT EXISTS lancamentos(
+CREATE TABLE IF NOT EXISTS lancamento(
   `idLancamento` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `fk_filme` INT NOT NULL,
   `fk_midia` INT NOT NULL,
@@ -71,18 +69,17 @@ FOREIGN KEY (`fk_filme`) REFERENCES Filme (idFilme),
 FOREIGN KEY (`fk_midia`) REFERENCES Midia (idMidia)
 );
 
-
 CREATE TABLE IF NOT EXISTS `Compra` (
-  `fk_colecao` INT NOT NULL PRIMARY KEY,
+  `fk_colecao` INT NOT NULL,
   `dt_compra` DATE DEFAULT (CURRENT_DATE),
   `valor_compra` DECIMAL(10,2) NULL,
   `fk_local_compra` INT NOT NULL,
   `fk_lancamento`INT NOT NULL,
+PRIMARY KEY (`fk_colecao`,`fk_local_compra`,`fk_lancamento`),
 FOREIGN KEY (`fk_colecao`) REFERENCES `Colecao` (`idColecao`),
-FOREIGN KEY (`fk_local_compra`) REFERENCES `locais_compra` (`id_local_compra`),
-FOREIGN KEY (`fk_lancamento`) REFERENCES `lancamentos` (`idlancamento`)
+FOREIGN KEY (`fk_local_compra`) REFERENCES `local_compra` (`id_local_compra`),
+FOREIGN KEY (`fk_lancamento`) REFERENCES `lancamento` (`idlancamento`)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS `Genero` (

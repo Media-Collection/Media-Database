@@ -99,15 +99,27 @@ WHERE idColecao = 1 AND titulo.fk_regiao = 1 AND titulo LIKE '%saw%'
 ORDER BY popularidade DESC
 LIMIT 14;
 
--- Inserts das compras na coleção
-INSERT INTO lancamento(fk_filme, fk_midia) VALUES
-('180', 1);
+SELECT DISTINCT idFilme, path, titulo, filme.dt_lancamento, popularidade, regiao.regiao FROM filme
+JOIN poster ON filme.idFilme = poster.fk_filme
+JOIN titulo ON filme.idFilme = titulo.fk_filme
+JOIN regiao ON idRegiao = titulo.fk_regiao AND idRegiao = poster.fk_regiao
+JOIN compra ON compra.fk_filme = filme.idFilme
+JOIN colecao ON fk_colecao = idColecao
+WHERE idColecao = 1 AND titulo.fk_regiao = 1 AND titulo LIKE '%saw%'
+ORDER BY popularidade DESC
+LIMIT 14;
 
-INSERT INTO compra VALUES (1, '2026-11-13', 25.99, 1, 8);
+-- Inserts das compras na coleção
+-- INSERT INTO lancamento(fk_filme, fk_midia) VALUES ('176', 1);
+INSERT INTO compra(fk_colecao, dt_compra, valor_compra, fk_local_compra, fk_midia, fk_filme) VALUES (1, '2026-11-13', 25.99, 1, 1, 176);
 DESC compra;
-        
+     
+-- Insert de filmes na coleção
+     
+     
 SELECT * FROM colecao;
 SELECT * FROM regiao;
+SELECT * FROM lancamento;
         
 
 SELECT idUsuario, username, email, fk_colecao as colecaoId FROM usuario WHERE email = 'teste12@teste12.com' AND senha = '123123';
@@ -123,3 +135,11 @@ INSERT IGNORE INTO filme VALUES(11202, '1970-01-25', 11.4978);
 INSERT IGNORE INTO poster(path, fk_filme, fk_regiao) VALUES('/wxDAG0bWf7ytbE1tmR5iN8v2Zdf.jpg', 11202, 2),('/rLM7jIEPTjj4CF7F1IrzzNjLUCu.jpg', 11202, 1);
 INSERT IGNORE INTO titulo(titulo, fk_filme, fk_regiao) VALUES('Patton', 11202, 1);
 INSERT IGNORE INTO titulo(titulo, fk_filme, fk_regiao) VALUES('Patton, Rebelde ou Herói?', 11202, 2);
+
+UPDATE usuario SET fk_colecao = (SELECT idUsuario FROM user_test) WHERE email = 'lucas1@gmail.com' AND senha = 'lucas123';  
+CREATE VIEW user_test AS
+SELECT idUsuario FROM usuario WHERE email = 'lucas1@gmail.com' AND senha = 'lucas123';
+SELECT * FROM usuario;
+SHOW TABLES;
+
+DROP DATABASE collect_physical;

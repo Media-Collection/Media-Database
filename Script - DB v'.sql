@@ -58,13 +58,13 @@ CREATE TABLE IF NOT EXISTS midia (
   );
 
 CREATE TABLE IF NOT EXISTS `Compra` (
-  `idCompra` INT PRIMARY KEY AUTO_INCREMENT,
   `dt_compra` DATE DEFAULT (CURRENT_DATE),
   `valor_compra` DECIMAL(10,2) NULL,
   `fk_colecao` INT NOT NULL,
   `fk_local_compra` INT NOT NULL,
   `fk_midia`INT NOT NULL,
   `fk_filme`INT NOT NULL,
+PRIMARY KEY (`fk_colecao`, `fk_midia`, `fk_filme`),
 FOREIGN KEY (`fk_colecao`) REFERENCES `Colecao` (`idColecao`),
 FOREIGN KEY (`fk_local_compra`) REFERENCES `local_compra` (`id_local_compra`),
 FOREIGN KEY (`fk_midia`) REFERENCES `midia` (`idMidia`),

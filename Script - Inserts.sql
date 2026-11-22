@@ -138,6 +138,33 @@ LIMIT 300;
 -- INSERT INTO lancamento(fk_filme, fk_midia) VALUES ('176', 1);
 INSERT INTO compra(fk_colecao, dt_compra, valor_compra, fk_local_compra, fk_midia, fk_filme) VALUES (1, '2026-11-13', 25.99, 1, 1, 176);
 DESC compra;
+
+-- Deletes das compras na coleção
+DELETE FROM compra WHERE fk_filme = 1195803
+AND fk_colecao = 3;
+
+DELETE FROM compra WHERE fk_filme = 1 AND fk_colecao = 1;
+
+SELECT * FROM compra 
+WHERE fk_colecao = 3
+ORDER BY dt_compra;
+
+SELECT idFilme, path, titulo, filme.dt_lancamento, popularidade, regiao.regiao, midia.tipo AS 'midia', genero.nome_genero as genero, dt_compra, valor_compra, local_compra.local FROM filme
+JOIN filme_genero ON filme.idFilme = filme_genero.fk_filme
+JOIN genero ON genero.idGenero = filme_genero.fk_genero
+JOIN poster ON filme.idFilme = poster.fk_filme
+JOIN titulo ON filme.idFilme = titulo.fk_filme
+JOIN regiao ON idRegiao = titulo.fk_regiao AND idRegiao = poster.fk_regiao
+JOIN compra ON compra.fk_filme = filme.idFilme
+JOIN colecao ON fk_colecao = colecao.idColecao
+JOIN local_compra ON fk_local_compra = local_compra.id_local_compra
+JOIN midia ON fk_midia = midia.idMidia
+WHERE idColecao = 3 AND titulo.fk_regiao = 1 -- AND titulo like '%${search}%'
+ORDER BY popularidade DESC
+LIMIT 300;
+
+DESC compra;
+DESC local_compra;
      
 -- Select de Gêneros para a dashboard
 SELECT genero.nome_genero AS 'genero', COUNT(genero.idGenero) AS 'total' FROM genero
